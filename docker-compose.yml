@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  coder:
+    image: yonix06/dev:vscode-exp
+    environment:
+      - PASSWORD=yourpassword
+      - SUDO_PASSWORD=yourpassword
+      - TAILSCALE_AUTHKEY=yourtailscaleauthkey
+      - POSTGRES_USER=coder
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=coder
+    volumes:
+      - /mnt/user/appdata/coder-data/coder:/home/coder/.local/share/code-server
+      - /mnt/user/appdata/coder-data/tailscaled:/var/lib/tailscale
+      - /mnt/user/appdata/coder-data/postgres:/var/lib/postgresql/data
+    ports:
+      - "8080:8080"
+      - "5432:5432"
+      - "41641:41641/udp"
+
+  tailscaled:
+    image: yonix06/dev:vscode-exp
+    environment:
+      - TAILSCALE_AUTHKEY=yourtailscaleauthkey
+    volumes:
+      - /mnt/user/appdata/coder-data/tailscaled:/var/lib/tailscale
+    command: tailscaled
+
+  postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=coder
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=coder
+    volumes:
+      - /mnt/user/appdata/coder-data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
