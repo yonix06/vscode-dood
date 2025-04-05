@@ -37,11 +37,11 @@ jobs:
       with:
         context: .
         push: true
-        tags: yonix06/dev:vscode-exp
+        tags: yonix06/dev:coder-aio
 
     - name: Build and push Docker image to GitHub Container Registry
       uses: docker/build-push-action@v2
       with:
         context: .
         push: true
-        tags: ghcr.io/yonix06/vscode-dood:latest
+        tags: ghcr.io/yonix06/coder-aio:latest
